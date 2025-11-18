@@ -1,0 +1,9 @@
+<svg  viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Diamond Shape -->
+  <path d="M50 10L90 50L50 90L10 50L50 10Z" fill="#092E20" stroke="#0FA968" stroke-width="3"/>
+  
+  <!-- Lock/Trap Center -->
+  <circle cx="50" cy="50" r="20" fill="#ff6b35"/>
+  <rect x="45" y="50" width="10" height="10" rx="100" fill="#092E20"/>
+  <rect x="47.5" y="43" width="5" height="10" rx="2" fill="#092E20"/>
+</svg>
