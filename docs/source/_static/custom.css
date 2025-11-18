@@ -1,0 +1,18 @@
+.wy-side-nav-search {
+    background-color: #343131;
+}
+
+.wy-nav-top {
+    background: #343131;
+}
+
+/* Make warning notes stand out */
+.rst-content .admonition.warning {
+    background: #fff4f4;
+    border-left: 5px solid #e74c3c;
+}
+
+.rst-content .admonition.warning .admonition-title {
+    background: #e74c3c;
+    color: white;
+}
