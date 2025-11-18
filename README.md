@@ -154,4 +154,4 @@ MIT License - feel free to use in any project.
 
 - **PyPI**: https://pypi.org/project/django-admin-trap/
 - **GitHub**: https://github.com/jamil-codes/django-admin-trap
-- **Documentation**: This README 😊
+- **Documentation**: https://django-admin-trap.jamilcodes.com/
