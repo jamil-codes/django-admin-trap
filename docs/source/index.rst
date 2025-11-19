@@ -50,10 +50,3 @@ Add to your ``urls.py``:
    how-it-works
    faq
    security
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
