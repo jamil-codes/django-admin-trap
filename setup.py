@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="django-admin-trap",
-    version="1.1.0",
+    version="1.1.1",
     author="Jamil Ahmed",
     author_email="contact@jamilcodes.com",
     description="A completely fake Django admin login page - perfect honeypot",

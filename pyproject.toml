@@ -50,7 +50,7 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/jamil-codes/django-admin-trap"
+Homepage = "https://django-admin-trap.jamilcodes.com"
 Repository = "https://github.com/jamil-codes/django-admin-trap"
 "Bug Tracker" = "https://github.com/jamil-codes/django-admin-trap/issues"
 "Changelog" = "https://github.com/jamil-codes/django-admin-trap/releases"
