@@ -31,6 +31,15 @@ Quick Start
 
    pip install django-admin-trap
 
+Add to your ``INSTALLED_APPS`` in ``settings.py``:
+
+.. code-block:: python
+
+   INSTALLED_APPS = [
+       # ... your other apps
+       'django_admin_trap',
+   ]
+
 Add to your ``urls.py``:
 
 .. code-block:: python

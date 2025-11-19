@@ -20,6 +20,16 @@ Add to your ``INSTALLED_APPS`` in ``settings.py``:
        'django_admin_trap',
    ]
 
+Add to your ``urls.py``:
+
+.. code-block:: python
+
+   urlpatterns = [
+       path('admin/', include('django_admin_trap.urls')),  # Fake admin trap
+       path('real-admin/', admin.site.urls), # Your real admin
+   ]
+
+
 No migrations needed! The package is completely stateless.
 
 Requirements

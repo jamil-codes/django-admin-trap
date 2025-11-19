@@ -1,769 +1,771 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Django Admin Trap - Fake Django Admin Login Security Honeypot</title>
-    <meta
-      name="description"
-      content="Django Admin Trap is a completely fake Django admin login page that mimics the real Django admin perfectly. Perfect for security through obscurity, honeypots, or confusing attackers." />
-    <meta
-      name="keywords"
-      content="django, admin, security, honeypot, trap, fake login, cybersecurity, django security, admin protection" />
-    <meta name="author" content="Jamil Ahmed" />
 
-    <!-- Open Graph -->
-    <meta property="og:title" content="Django Admin Trap - Fake Django Admin Login Security Honeypot" />
-    <meta
-      property="og:description"
-      content="A completely fake Django admin login page that mimics the real Django admin perfectly for security protection" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://jamil-codes.github.io/django-admin-trap" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Django Admin Trap - Fake Django Admin Login Security Honeypot</title>
+  <meta name="description"
+    content="Django Admin Trap is a completely fake Django admin login page that mimics the real Django admin perfectly. Perfect for security through obscurity, honeypots, or confusing attackers." />
+  <meta name="keywords"
+    content="django, admin, security, honeypot, trap, fake login, cybersecurity, django security, admin protection" />
+  <meta name="author" content="Jamil Ahmed" />
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Django Admin Trap - Security Honeypot" />
-    <meta name="twitter:description" content="Fake Django admin login page for security protection" />
+  <!-- Open Graph -->
+  <meta property="og:title" content="Django Admin Trap - Fake Django Admin Login Security Honeypot" />
+  <meta property="og:description"
+    content="A completely fake Django admin login page that mimics the real Django admin perfectly for security protection" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://jamil-codes.github.io/django-admin-trap" />
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico" />
-    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="images/android-chrome-192x192.png" />
-    <link rel="icon" type="image/png" sizes="512x512" href="images/android-chrome-512x512.png" />
-    <style>
-      :root {
-        --primary: #092e20;
-        --primary-dark: #061c14;
-        --accent: #ff6b35;
-        --accent-dark: #e55a2b;
-        --text: #2d3748;
-        --text-light: #4a5568;
-        --background: #ffffff;
-        --background-alt: #f7fafc;
-        --border: #e2e8f0;
-        --code-bg: #1a202c;
-        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        --radius: 8px;
-      }
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Django Admin Trap - Security Honeypot" />
+  <meta name="twitter:description" content="Fake Django admin login page for security protection" />
 
-      [data-theme="dark"] {
-        --primary: #0fa968;
-        --primary-dark: #0c8552;
-        --text: #e2e8f0;
-        --text-light: #cbd5e0;
-        --background: #1a202c;
-        --background-alt: #2d3748;
-        --border: #4a5568;
-        --code-bg: #2d3748;
-      }
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="images/android-chrome-192x192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="images/android-chrome-512x512.png" />
+  <style>
+    :root {
+      --primary: #092e20;
+      --primary-dark: #061c14;
+      --accent: #ff6b35;
+      --accent-dark: #e55a2b;
+      --text: #2d3748;
+      --text-light: #4a5568;
+      --background: #ffffff;
+      --background-alt: #f7fafc;
+      --border: #e2e8f0;
+      --code-bg: #1a202c;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --radius: 8px;
+    }
 
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+    [data-theme="dark"] {
+      --primary: #0fa968;
+      --primary-dark: #0c8552;
+      --text: #e2e8f0;
+      --text-light: #cbd5e0;
+      --background: #1a202c;
+      --background-alt: #2d3748;
+      --border: #4a5568;
+      --code-bg: #2d3748;
+    }
 
-      html {
-        scroll-behavior: smooth;
-      }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-        line-height: 1.6;
-        color: var(--text);
-        background: var(--background);
-        transition: all 0.3s ease;
-      }
+    html {
+      scroll-behavior: smooth;
+    }
 
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
-      }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--background);
+      transition: all 0.3s ease;
+    }
 
-      /* Header */
-      header {
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: var(--shadow);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      transition: opacity 0.3s;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover {
+      opacity: 0.8;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      color: white;
+      padding: 4rem 0;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .warning-banner {
+      background: var(--accent);
+      color: white;
+      padding: 1rem;
+      border-radius: var(--radius);
+      margin: 2rem auto;
+      max-width: 600px;
+      font-weight: bold;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+    }
+
+    .btn-secondary:hover {
+      background: white;
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    /* Main Content */
+    main {
+      padding: 4rem 0;
+    }
+
+    .section {
+      margin-bottom: 4rem;
+    }
+
+    /* Add extra margin to first section after hero */
+    main .section:first-child {
+      margin-top: 2rem;
+    }
+
+    .section h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section h3 {
+      font-size: 1.5rem;
+      margin: 2rem 0 1rem;
+      color: var(--text);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .feature-card {
+      background: var(--background-alt);
+      padding: 2rem;
+      border-radius: var(--radius);
+      border-left: 4px solid var(--accent);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid var(--border);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+
+    .feature-card h4 {
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+
+    /* Code Blocks */
+    .code-block {
+      background: var(--code-bg);
+      color: #e2e8f0;
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      margin: 1.5rem 0;
+      overflow-x: auto;
+      position: relative;
+      border: 1px solid var(--border);
+    }
+
+    [data-theme="dark"] .code-block {
+      background: #2d3748;
+      border: 1px solid #4a5568;
+    }
+
+    .code-block pre {
+      margin: 0;
+      font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      color: #cbd5e0;
+      font-size: 0.9rem;
+    }
+
+    .copy-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: background 0.3s;
+    }
+
+    .copy-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .copy-btn.copied {
+      background: var(--accent);
+    }
+
+    /* Tabs - IMPROVED VERSION */
+    .tabs {
+      margin: 2rem 0;
+    }
+
+    .tab-buttons {
+      display: flex;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tab-btn {
+      padding: 0.75rem 1.5rem;
+      background: var(--background-alt);
+      border: 2px solid transparent;
+      cursor: pointer;
+      border-radius: var(--radius) var(--radius) 0 0;
+      transition: all 0.3s;
+      color: var(--text-light);
+      font-weight: 500;
+      position: relative;
+      bottom: -2px;
+    }
+
+    .tab-btn:hover {
+      background: var(--background);
+      border-color: var(--border);
+      color: var(--text);
+    }
+
+    .tab-btn.active {
+      background: var(--background);
+      border-color: var(--accent) var(--border) var(--background) var(--border);
+      border-bottom-color: var(--background);
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* FAQ */
+    .faq-item {
+      margin-bottom: 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 0.3s ease;
+    }
+
+    .faq-item:hover {
+      border-color: var(--primary);
+    }
+
+    .faq-question {
+      padding: 1rem;
+      background: var(--background-alt);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      transition: background 0.3s ease;
+    }
+
+    .faq-question:hover {
+      background: var(--background);
+    }
+
+    .faq-answer {
+      padding: 0 1rem;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+
+    .faq-answer.open {
+      padding: 1rem;
+      max-height: 500px;
+    }
+
+    /* Use Cases */
+    .use-case {
+      background: var(--background-alt);
+      padding: 2rem;
+      border-radius: var(--radius);
+      margin-bottom: 2rem;
+      border-left: 4px solid var(--primary);
+      border: 1px solid var(--border);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--primary-dark);
+      color: white;
+      padding: 3rem 0;
+      text-align: center;
+    }
+
+    .footer-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+      transition: opacity 0.3s;
+      font-weight: 500;
+    }
+
+    .footer-links a:hover {
+      opacity: 0.8;
+    }
+
+    /* Theme Toggle */
+    .theme-toggle {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.1);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
         background: var(--primary);
-        color: white;
-        padding: 1rem 0;
-        position: sticky;
-        top: 0;
-        z-index: 1000;
+        flex-direction: column;
+        padding: 1rem;
+        gap: 1rem;
         box-shadow: var(--shadow);
       }
 
-      .nav-container {
+      .nav-links.active {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .logo {
-        font-size: 1.5rem;
-        font-weight: bold;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-
-      .nav-links {
-        display: flex;
-        gap: 2rem;
-        list-style: none;
-      }
-
-      .nav-links a {
-        color: white;
-        text-decoration: none;
-        transition: opacity 0.3s;
-        font-weight: 500;
-      }
-
-      .nav-links a:hover {
-        opacity: 0.8;
       }
 
       .mobile-menu-btn {
-        display: none;
-        background: none;
-        border: none;
-        color: white;
-        font-size: 1.5rem;
-        cursor: pointer;
-        padding: 0.5rem;
-      }
-
-      /* Hero Section */
-      .hero {
-        background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-        color: white;
-        padding: 4rem 0;
-        text-align: center;
+        display: block;
       }
 
       .hero h1 {
-        font-size: 3rem;
-        margin-bottom: 1rem;
-        line-height: 1.2;
+        font-size: 2rem;
       }
 
       .hero p {
-        font-size: 1.25rem;
-        margin-bottom: 2rem;
-        opacity: 0.9;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .warning-banner {
-        background: var(--accent);
-        color: white;
-        padding: 1rem;
-        border-radius: var(--radius);
-        margin: 2rem auto;
-        max-width: 600px;
-        font-weight: bold;
-        border: 2px solid rgba(255, 255, 255, 0.2);
+        font-size: 1.1rem;
       }
 
       .cta-buttons {
-        display: flex;
-        gap: 1rem;
-        justify-content: center;
-        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
       }
 
       .btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.75rem 1.5rem;
-        border-radius: var(--radius);
-        text-decoration: none;
-        font-weight: 600;
-        transition: all 0.3s;
-        border: none;
-        cursor: pointer;
-        font-size: 1rem;
-      }
-
-      .btn-primary {
-        background: var(--accent);
-        color: white;
-      }
-
-      .btn-primary:hover {
-        background: var(--accent-dark);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-      }
-
-      .btn-secondary {
-        background: transparent;
-        color: white;
-        border: 2px solid white;
-      }
-
-      .btn-secondary:hover {
-        background: white;
-        color: var(--primary);
-        transform: translateY(-2px);
-      }
-
-      /* Main Content */
-      main {
-        padding: 4rem 0;
-      }
-
-      .section {
-        margin-bottom: 4rem;
-      }
-
-      /* Add extra margin to first section after hero */
-      main .section:first-child {
-        margin-top: 2rem;
-      }
-
-      .section h2 {
-        font-size: 2rem;
-        margin-bottom: 1.5rem;
-        color: var(--primary);
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-
-      .section h3 {
-        font-size: 1.5rem;
-        margin: 2rem 0 1rem;
-        color: var(--text);
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
       }
 
       .features-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 2rem;
-        margin: 2rem 0;
+        grid-template-columns: 1fr;
+        gap: 1rem;
       }
 
       .feature-card {
-        background: var(--background-alt);
-        padding: 2rem;
-        border-radius: var(--radius);
-        border-left: 4px solid var(--accent);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border: 1px solid var(--border);
-      }
-
-      .feature-card:hover {
-        transform: translateY(-5px);
-        box-shadow: var(--shadow);
-      }
-
-      .feature-card h4 {
-        margin-bottom: 1rem;
-        color: var(--primary);
-      }
-
-      /* Code Blocks */
-      .code-block {
-        background: var(--code-bg);
-        color: #e2e8f0;
         padding: 1.5rem;
-        border-radius: var(--radius);
-        margin: 1.5rem 0;
-        overflow-x: auto;
-        position: relative;
-        border: 1px solid var(--border);
       }
 
-      [data-theme="dark"] .code-block {
-        background: #2d3748;
-        border: 1px solid #4a5568;
-      }
-
-      .code-block pre {
-        margin: 0;
-        font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
-        font-size: 0.9rem;
-        line-height: 1.5;
-      }
-
-      .code-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-        color: #cbd5e0;
-        font-size: 0.9rem;
-      }
-
-      .copy-btn {
-        background: var(--primary);
-        color: white;
-        border: none;
-        padding: 0.25rem 0.75rem;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 0.8rem;
-        transition: background 0.3s;
-      }
-
-      .copy-btn:hover {
-        background: var(--primary-dark);
-      }
-
-      .copy-btn.copied {
-        background: var(--accent);
-      }
-
-      /* Tabs - IMPROVED VERSION */
-      .tabs {
-        margin: 2rem 0;
-      }
-
+      /* Improved mobile tabs */
       .tab-buttons {
-        display: flex;
-        border-bottom: 2px solid var(--border);
-        margin-bottom: 2rem;
-        flex-wrap: wrap;
+        flex-direction: column;
+        border-bottom: none;
         gap: 0.5rem;
       }
 
       .tab-btn {
-        padding: 0.75rem 1.5rem;
-        background: var(--background-alt);
-        border: 2px solid transparent;
-        cursor: pointer;
-        border-radius: var(--radius) var(--radius) 0 0;
-        transition: all 0.3s;
-        color: var(--text-light);
-        font-weight: 500;
-        position: relative;
-        bottom: -2px;
-      }
-
-      .tab-btn:hover {
-        background: var(--background);
-        border-color: var(--border);
-        color: var(--text);
+        border-radius: var(--radius);
+        border: 2px solid var(--border);
+        bottom: 0;
       }
 
       .tab-btn.active {
-        background: var(--background);
-        border-color: var(--accent) var(--border) var(--background) var(--border);
-        border-bottom-color: var(--background);
-        color: var(--primary);
-        font-weight: 600;
-      }
-
-      .tab-content {
-        display: none;
-        animation: fadeIn 0.3s ease;
-      }
-
-      .tab-content.active {
-        display: block;
-      }
-
-      /* FAQ */
-      .faq-item {
-        margin-bottom: 1rem;
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        overflow: hidden;
-        transition: border-color 0.3s ease;
-      }
-
-      .faq-item:hover {
-        border-color: var(--primary);
-      }
-
-      .faq-question {
-        padding: 1rem;
-        background: var(--background-alt);
-        cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-weight: 600;
-        transition: background 0.3s ease;
-      }
-
-      .faq-question:hover {
+        border-color: var(--accent);
         background: var(--background);
       }
 
-      .faq-answer {
-        padding: 0 1rem;
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease, padding 0.3s ease;
+      .section h2 {
+        font-size: 1.75rem;
       }
 
-      .faq-answer.open {
-        padding: 1rem;
-        max-height: 500px;
+      .section h3 {
+        font-size: 1.25rem;
       }
 
-      /* Use Cases */
-      .use-case {
-        background: var(--background-alt);
-        padding: 2rem;
-        border-radius: var(--radius);
-        margin-bottom: 2rem;
-        border-left: 4px solid var(--primary);
-        border: 1px solid var(--border);
+      .theme-toggle {
+        bottom: 1rem;
+        right: 1rem;
+        width: 45px;
+        height: 45px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 15px;
       }
 
-      /* Footer */
-      footer {
-        background: var(--primary-dark);
-        color: white;
+      .hero {
         padding: 3rem 0;
-        text-align: center;
       }
 
-      .footer-content {
-        max-width: 600px;
-        margin: 0 auto;
+      .hero h1 {
+        font-size: 1.75rem;
+      }
+
+      .warning-banner {
+        margin: 1.5rem auto;
+        padding: 0.75rem;
+      }
+
+      .section {
+        margin-bottom: 3rem;
+      }
+
+      .use-case {
+        padding: 1.5rem;
+      }
+
+      .code-block {
+        padding: 1rem;
       }
 
       .footer-links {
-        display: flex;
-        justify-content: center;
-        gap: 2rem;
-        margin: 2rem 0;
-        flex-wrap: wrap;
+        gap: 1rem;
+        flex-direction: column;
+      }
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
       }
 
-      .footer-links a {
-        color: white;
-        text-decoration: none;
-        transition: opacity 0.3s;
-        font-weight: 500;
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
+    }
 
-      .footer-links a:hover {
-        opacity: 0.8;
-      }
+    .fade-in {
+      animation: fadeIn 0.6s ease forwards;
+    }
 
-      /* Theme Toggle */
-      .theme-toggle {
-        position: fixed;
-        bottom: 2rem;
-        right: 2rem;
-        background: var(--primary);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        cursor: pointer;
-        box-shadow: var(--shadow);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.2rem;
-        z-index: 1000;
-        transition: all 0.3s ease;
-      }
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
 
-      .theme-toggle:hover {
-        transform: scale(1.1);
-      }
+    ::-webkit-scrollbar-track {
+      background: var(--background-alt);
+    }
 
-      /* Responsive */
-      @media (max-width: 768px) {
-        .nav-links {
-          display: none;
-          position: absolute;
-          top: 100%;
-          left: 0;
-          right: 0;
-          background: var(--primary);
-          flex-direction: column;
-          padding: 1rem;
-          gap: 1rem;
-          box-shadow: var(--shadow);
-        }
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 4px;
+    }
 
-        .nav-links.active {
-          display: flex;
-        }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary-dark);
+    }
+  </style>
+</head>
 
-        .mobile-menu-btn {
-          display: block;
-        }
-
-        .hero h1 {
-          font-size: 2rem;
-        }
-
-        .hero p {
-          font-size: 1.1rem;
-        }
-
-        .cta-buttons {
-          flex-direction: column;
-          align-items: center;
-        }
-
-        .btn {
-          width: 100%;
-          max-width: 300px;
-          justify-content: center;
-        }
-
-        .features-grid {
-          grid-template-columns: 1fr;
-          gap: 1rem;
-        }
-
-        .feature-card {
-          padding: 1.5rem;
-        }
-
-        /* Improved mobile tabs */
-        .tab-buttons {
-          flex-direction: column;
-          border-bottom: none;
-          gap: 0.5rem;
-        }
-
-        .tab-btn {
-          border-radius: var(--radius);
-          border: 2px solid var(--border);
-          bottom: 0;
-        }
-
-        .tab-btn.active {
-          border-color: var(--accent);
-          background: var(--background);
-        }
-
-        .section h2 {
-          font-size: 1.75rem;
-        }
-
-        .section h3 {
-          font-size: 1.25rem;
-        }
-
-        .theme-toggle {
-          bottom: 1rem;
-          right: 1rem;
-          width: 45px;
-          height: 45px;
-        }
-      }
-
-      @media (max-width: 480px) {
-        .container {
-          padding: 0 15px;
-        }
-
-        .hero {
-          padding: 3rem 0;
-        }
-
-        .hero h1 {
-          font-size: 1.75rem;
-        }
-
-        .warning-banner {
-          margin: 1.5rem auto;
-          padding: 0.75rem;
-        }
-
-        .section {
-          margin-bottom: 3rem;
-        }
-
-        .use-case {
-          padding: 1.5rem;
-        }
-
-        .code-block {
-          padding: 1rem;
-        }
-
-        .footer-links {
-          gap: 1rem;
-          flex-direction: column;
-        }
-      }
-
-      /* Animation */
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .fade-in {
-        animation: fadeIn 0.6s ease forwards;
-      }
-
-      /* Scrollbar */
-      ::-webkit-scrollbar {
-        width: 8px;
-      }
-
-      ::-webkit-scrollbar-track {
-        background: var(--background-alt);
-      }
-
-      ::-webkit-scrollbar-thumb {
-        background: var(--primary);
-        border-radius: 4px;
-      }
-
-      ::-webkit-scrollbar-thumb:hover {
-        background: var(--primary-dark);
-      }
-    </style>
-  </head>
-  <body>
-    <header>
-      <div class="container nav-container">
-        <div class="logo">
-          <span>🚨</span>
-          Django Admin Trap
-        </div>
-        <nav>
-          <ul class="nav-links">
-            <li><a href="#features">Features</a></li>
-            <li><a href="#installation">Installation</a></li>
-            <li><a href="#usage">Usage</a></li>
-            <li><a href="#examples">Examples</a></li>
-            <li><a href="#faq">FAQ</a></li>
-          </ul>
-          <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
-        </nav>
+<body>
+  <header>
+    <div class="container nav-container">
+      <div class="logo">
+        <span>🚨</span>
+        Django Admin Trap
       </div>
-    </header>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#installation">Installation</a></li>
+          <li><a href="#usage">Usage</a></li>
+          <li><a href="#examples">Examples</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+        <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+      </nav>
+    </div>
+  </header>
 
-    <section class="hero">
-      <div class="container">
-        <h1>Django Admin Trap 🔐</h1>
-        <p>
-          A completely fake Django admin login page that mimics the real Django admin perfectly. Perfect for security through
-          obscurity, honeypots, or just confusing attackers.
-        </p>
+  <section class="hero">
+    <div class="container">
+      <h1>Django Admin Trap 🔐</h1>
+      <p>
+        A completely fake Django admin login page that mimics the real Django admin perfectly. Perfect for security
+        through
+        obscurity, honeypots, or just confusing attackers.
+      </p>
 
-        <div class="warning-banner">
-          ⚠️ Warning: This is a trap! It looks exactly like the real Django admin but doesn't actually log anyone in.
+      <div class="warning-banner">
+        ⚠️ Warning: This is a trap! It looks exactly like the real Django admin but doesn't actually log anyone in.
+      </div>
+
+      <div class="cta-buttons">
+        <a href="#installation" class="btn btn-primary"> 📦 Get Started </a>
+        <a href="https://github.com/jamil-codes/django-admin-trap" class="btn btn-secondary" target="_blank">
+          💻 View on GitHub
+        </a>
+        <a href="https://pypi.org/project/django-admin-trap/" class="btn btn-secondary" target="_blank"> 🐍 PyPI Package
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+    <section id="features" class="section fade-in">
+      <h2>🚀 Features</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <h4>Perfect Disguise</h4>
+          <p>Looks identical to the real Django admin login - indistinguishable from the real thing.</p>
         </div>
-
-        <div class="cta-buttons">
-          <a href="#installation" class="btn btn-primary"> 📦 Get Started </a>
-          <a href="https://github.com/jamil-codes/django-admin-trap" class="btn btn-secondary" target="_blank">
-            💻 View on GitHub
-          </a>
-          <a href="https://pypi.org/project/django-admin-trap/" class="btn btn-secondary" target="_blank"> 🐍 PyPI Package </a>
+        <div class="feature-card">
+          <h4>No Database</h4>
+          <p>Zero database interactions - completely stateless and lightweight.</p>
+        </div>
+        <div class="feature-card">
+          <h4>No Logging</h4>
+          <p>Doesn't store any credentials or attempt data. Privacy-focused by design.</p>
+        </div>
+        <div class="feature-card">
+          <h4>Always Fails</h4>
+          <p>Every login attempt shows "invalid credentials" error - perfect honeypot behavior.</p>
+        </div>
+        <div class="feature-card">
+          <h4>Plug & Play</h4>
+          <p>Setup in 2 minutes with minimal configuration required.</p>
+        </div>
+        <div class="feature-card">
+          <h4>Django Native</h4>
+          <p>Uses Django's actual admin templates and styling for perfect integration.</p>
         </div>
       </div>
     </section>
 
-    <main class="container">
-      <section id="features" class="section fade-in">
-        <h2>🚀 Features</h2>
-        <div class="features-grid">
-          <div class="feature-card">
-            <h4>Perfect Disguise</h4>
-            <p>Looks identical to the real Django admin login - indistinguishable from the real thing.</p>
-          </div>
-          <div class="feature-card">
-            <h4>No Database</h4>
-            <p>Zero database interactions - completely stateless and lightweight.</p>
-          </div>
-          <div class="feature-card">
-            <h4>No Logging</h4>
-            <p>Doesn't store any credentials or attempt data. Privacy-focused by design.</p>
-          </div>
-          <div class="feature-card">
-            <h4>Always Fails</h4>
-            <p>Every login attempt shows "invalid credentials" error - perfect honeypot behavior.</p>
-          </div>
-          <div class="feature-card">
-            <h4>Plug & Play</h4>
-            <p>Setup in 2 minutes with minimal configuration required.</p>
-          </div>
-          <div class="feature-card">
-            <h4>Django Native</h4>
-            <p>Uses Django's actual admin templates and styling for perfect integration.</p>
-          </div>
+    <section id="installation" class="section fade-in">
+      <h2>📦 Installation</h2>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span>Terminal</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
         </div>
-      </section>
+        <pre><code>pip install django-admin-trap</code></pre>
+      </div>
 
-      <section id="installation" class="section fade-in">
-        <h2>📦 Installation</h2>
-
-        <div class="code-block">
-          <div class="code-header">
-            <span>Terminal</span>
-            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-          </div>
-          <pre><code>pip install django-admin-trap</code></pre>
+      <h3>Add to INSTALLED_APPS</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <span>settings.py</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
         </div>
-
-        <h3>Add to INSTALLED_APPS</h3>
-        <div class="code-block">
-          <div class="code-header">
-            <span>settings.py</span>
-            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-          </div>
-          <pre><code>INSTALLED_APPS = [
+        <pre><code>INSTALLED_APPS = [
     # ...
     'django_admin_trap',
 ]</code></pre>
+      </div>
+    </section>
+
+    <section id="usage" class="section fade-in">
+      <h2>⚡ Quick Setup</h2>
+
+      <div class="tabs">
+        <div class="tab-buttons">
+          <button class="tab-btn active" onclick="openTab(event, 'option-a')">🔄 Replace Real Admin</button>
+          <button class="tab-btn" onclick="openTab(event, 'option-b')">➕ Use Alongside Admin</button>
+          <button class="tab-btn" onclick="openTab(event, 'option-c')">🎯 Multiple Trap Endpoints</button>
         </div>
-      </section>
 
-      <section id="usage" class="section fade-in">
-        <h2>⚡ Quick Setup</h2>
-
-        <div class="tabs">
-          <div class="tab-buttons">
-            <button class="tab-btn active" onclick="openTab(event, 'option-a')">🔄 Replace Real Admin</button>
-            <button class="tab-btn" onclick="openTab(event, 'option-b')">➕ Use Alongside Admin</button>
-            <button class="tab-btn" onclick="openTab(event, 'option-c')">🎯 Multiple Trap Endpoints</button>
-          </div>
-
-          <div id="option-a" class="tab-content active">
-            <p><strong>Replace real admin</strong> (recommended for traps):</p>
-            <div class="code-block">
-              <div class="code-header">
-                <span>urls.py</span>
-                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-              </div>
-              <pre><code>from django.urls import path, include
+        <div id="option-a" class="tab-content active">
+          <p><strong>Replace real admin</strong> (recommended for traps):</p>
+          <div class="code-block">
+            <div class="code-header">
+              <span>urls.py</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><code>from django.urls import path, include
 
 urlpatterns = [
     path('admin/', include('django_admin_trap.urls')),  # Fake admin
     # ... your other URLs
 ]</code></pre>
-            </div>
-            <p><em>Perfect for production environments where you want to trap attackers on the main admin URL.</em></p>
           </div>
+          <p><em>Perfect for production environments where you want to trap attackers on the main admin URL.</em></p>
+        </div>
 
-          <div id="option-b" class="tab-content">
-            <p><strong>Use alongside real admin:</strong></p>
-            <div class="code-block">
-              <div class="code-header">
-                <span>urls.py</span>
-                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-              </div>
-              <pre><code>from django.urls import path, include
+        <div id="option-b" class="tab-content">
+          <p><strong>Use alongside real admin:</strong></p>
+          <div class="code-block">
+            <div class="code-header">
+              <span>urls.py</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><code>from django.urls import path, include
 from django.contrib import admin
 
 urlpatterns = [
@@ -771,18 +773,18 @@ urlpatterns = [
     path('real-admin/', admin.site.urls),  # Real admin (hidden)
     # ... your other URLs
 ]</code></pre>
-            </div>
-            <p><em>Keep your real admin accessible but hidden on a different URL path.</em></p>
           </div>
+          <p><em>Keep your real admin accessible but hidden on a different URL path.</em></p>
+        </div>
 
-          <div id="option-c" class="tab-content">
-            <p><strong>Multiple trap endpoints:</strong></p>
-            <div class="code-block">
-              <div class="code-header">
-                <span>urls.py</span>
-                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-              </div>
-              <pre><code>from django.urls import path, include
+        <div id="option-c" class="tab-content">
+          <p><strong>Multiple trap endpoints:</strong></p>
+          <div class="code-block">
+            <div class="code-header">
+              <span>urls.py</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><code>from django.urls import path, include
 from django.contrib import admin
 
 urlpatterns = [
@@ -791,41 +793,41 @@ urlpatterns = [
     path('administrator/', include('django_admin_trap.urls')),
     path('real-admin/', admin.site.urls),  # Your actual admin
 ]</code></pre>
-            </div>
-            <p><em>Catch attackers on multiple common admin URLs while keeping your real admin secure.</em></p>
           </div>
+          <p><em>Catch attackers on multiple common admin URLs while keeping your real admin secure.</em></p>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section id="examples" class="section fade-in">
-        <h2>🛡️ Use Cases</h2>
+    <section id="examples" class="section fade-in">
+      <h2>🛡️ Use Cases</h2>
 
-        <div class="use-case">
-          <h3>1. Honeypot Security</h3>
-          <p>Put traps on common admin URLs to catch automated attacks and curious intruders.</p>
-          <div class="code-block">
-            <div class="code-header">
-              <span>urls.py</span>
-              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-            </div>
-            <pre><code># Put traps on common admin URLs
+      <div class="use-case">
+        <h3>1. Honeypot Security</h3>
+        <p>Put traps on common admin URLs to catch automated attacks and curious intruders.</p>
+        <div class="code-block">
+          <div class="code-header">
+            <span>urls.py</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><code># Put traps on common admin URLs
 urlpatterns = [
     path('admin/', include('django_admin_trap.urls')),  # Main trap
     path('wp-admin/', include('django_admin_trap.urls')),  # WordPress trap
     path('real-admin/', admin.site.urls),  # Your actual admin
 ]</code></pre>
-          </div>
         </div>
+      </div>
 
-        <div class="use-case">
-          <h3>2. Development Mock</h3>
-          <p>Use fake admin during development to avoid exposing real admin credentials.</p>
-          <div class="code-block">
-            <div class="code-header">
-              <span>settings.py</span>
-              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-            </div>
-            <pre><code># settings.py
+      <div class="use-case">
+        <h3>2. Development Mock</h3>
+        <p>Use fake admin during development to avoid exposing real admin credentials.</p>
+        <div class="code-block">
+          <div class="code-header">
+            <span>settings.py</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><code># settings.py
 if DEBUG:
     urlpatterns = [
         path('admin/', include('django_admin_trap.urls')),  # Fake admin for dev
@@ -834,288 +836,294 @@ else:
     urlpatterns = [
         path('admin/', admin.site.urls),  # Real admin for production
     ]</code></pre>
-          </div>
         </div>
+      </div>
 
-        <div class="use-case">
-          <h3>3. Client Demos</h3>
-          <p>Show clients the admin interface without giving them actual access.</p>
-          <div class="code-block">
-            <div class="code-header">
-              <span>urls.py</span>
-              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-            </div>
-            <pre><code># Show clients the admin interface without giving access
+      <div class="use-case">
+        <h3>3. Client Demos</h3>
+        <p>Show clients the admin interface without giving them actual access.</p>
+        <div class="code-block">
+          <div class="code-header">
+            <span>urls.py</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><code># Show clients the admin interface without giving access
 urlpatterns = [
     path('demo-admin/', include('django_admin_trap.urls')),
 ]</code></pre>
-          </div>
-        </div>
-      </section>
-
-      <section id="faq" class="section fade-in">
-        <h2>❓ FAQ</h2>
-
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFAQ(this)">
-            Does this store any data?
-            <span>▼</span>
-          </div>
-          <div class="faq-answer">
-            <p>
-              <strong>No.</strong> Zero database interactions. Completely stateless - no credentials or attempt data is stored
-              anywhere.
-            </p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFAQ(this)">
-            Can attackers detect this is a trap?
-            <span>▼</span>
-          </div>
-          <div class="faq-answer">
-            <p>
-              It uses Django's actual admin templates and responses, making it very hard to distinguish from a real admin. The
-              behavior and appearance are identical.
-            </p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFAQ(this)">
-            What about performance?
-            <span>▼</span>
-          </div>
-          <div class="faq-answer">
-            <p>
-              <strong>Minimal performance impact</strong> - just template rendering with no database queries or external API
-              calls.
-            </p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFAQ(this)">
-            Can I use this alongside the real admin?
-            <span>▼</span>
-          </div>
-          <div class="faq-answer">
-            <p><strong>Yes!</strong> Put the real admin on a different URL path and use the trap on common admin URLs.</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFAQ(this)">
-            Is it compatible with my Django version?
-            <span>▼</span>
-          </div>
-          <div class="faq-answer">
-            <p>
-              Works with <strong>Django 4.2+ and 5.x</strong>. Specifically tested and compatible with Django 5.0.4 and later
-              versions.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section class="section fade-in">
-        <h2>🚨 Security Notes</h2>
-        <div class="feature-card">
-          <ul style="padding-left: 1.5rem">
-            <li>This is a <strong>deterrent</strong>, not a complete security solution</li>
-            <li>Use in combination with proper security measures</li>
-            <li>Keep your actual admin secure and hidden</li>
-            <li>Monitor your traps for suspicious activity</li>
-            <li>Consider using additional security layers like 2FA for real admin</li>
-          </ul>
-        </div>
-      </section>
-    </main>
-
-    <footer>
-      <div class="container">
-        <div class="footer-content">
-          <h3>Django Admin Trap</h3>
-          <p>The ultimate fake Django admin login page for security protection</p>
-
-          <div class="footer-links">
-            <a href="https://github.com/jamil-codes/django-admin-trap" target="_blank">GitHub</a>
-            <a href="https://pypi.org/project/django-admin-trap/" target="_blank">PyPI</a>
-            <a href="https://docs.djangoproject.com/" target="_blank">Django Docs</a>
-            <a href="mailto:contact@jamilcodes.com">Contact</a>
-          </div>
-
-          <p>📄 <strong>MIT License</strong> - feel free to use in any project</p>
-          <p style="margin-top: 1rem; opacity: 0.8">Made with ❤️ by Jamil Ahmed</p>
         </div>
       </div>
-    </footer>
+    </section>
 
-    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">🌙</button>
+    <section id="faq" class="section fade-in">
+      <h2>❓ FAQ</h2>
 
-    <script>
-      // Mobile menu toggle
-      document.querySelector(".mobile-menu-btn").addEventListener("click", function () {
-        document.querySelector(".nav-links").classList.toggle("active");
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          Does this store any data?
+          <span>▼</span>
+        </div>
+        <div class="faq-answer">
+          <p>
+            <strong>No.</strong> Zero database interactions. Completely stateless - no credentials or attempt data is
+            stored
+            anywhere.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          Can attackers detect this is a trap?
+          <span>▼</span>
+        </div>
+        <div class="faq-answer">
+          <p>
+            It uses Django's actual admin templates and responses, making it very hard to distinguish from a real admin.
+            The
+            behavior and appearance are identical.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          What about performance?
+          <span>▼</span>
+        </div>
+        <div class="faq-answer">
+          <p>
+            <strong>Minimal performance impact</strong> - just template rendering with no database queries or external
+            API
+            calls.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          Can I use this alongside the real admin?
+          <span>▼</span>
+        </div>
+        <div class="faq-answer">
+          <p><strong>Yes!</strong> Put the real admin on a different URL path and use the trap on common admin URLs.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFAQ(this)">
+          Is it compatible with my Django version?
+          <span>▼</span>
+        </div>
+        <div class="faq-answer">
+          <p>
+            Works with <strong>Django 4.2+ and 5.x</strong>. Specifically tested and compatible with Django 5.0.4 and
+            later
+            versions.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section fade-in">
+      <h2>🚨 Security Notes</h2>
+      <div class="feature-card">
+        <ul style="padding-left: 1.5rem">
+          <li>This is a <strong>deterrent</strong>, not a complete security solution</li>
+          <li>Use in combination with proper security measures</li>
+          <li>Keep your actual admin secure and hidden</li>
+          <li>Monitor your traps for suspicious activity</li>
+          <li>Consider using additional security layers like 2FA for real admin</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <h3>Django Admin Trap</h3>
+        <p>The ultimate fake Django admin login page for security protection</p>
+
+        <div class="footer-links">
+          <a href="https://github.com/jamil-codes/django-admin-trap" target="_blank">GitHub</a>
+          <a href="https://pypi.org/project/django-admin-trap/" target="_blank">PyPI</a>
+          <a href="- **ReadTheDocs Documentation**: https://django-admin-trap.readthedocs.io/"
+            target="_blank">ReadTheDocs Docs</a>
+          <a href="mailto:contact@jamilcodes.com">Contact</a>
+        </div>
+
+        <p>📄 <strong>MIT License</strong> - feel free to use in any project</p>
+        <p style="margin-top: 1rem; opacity: 0.8">Made with ❤️ by Jamil Ahmed</p>
+      </div>
+    </div>
+  </footer>
+
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">🌙</button>
+
+  <script>
+    // Mobile menu toggle
+    document.querySelector(".mobile-menu-btn").addEventListener("click", function () {
+      document.querySelector(".nav-links").classList.toggle("active");
+    });
+
+    // Close mobile menu when clicking on a link
+    document.querySelectorAll(".nav-links a").forEach((link) => {
+      link.addEventListener("click", () => {
+        document.querySelector(".nav-links").classList.remove("active");
+      });
+    });
+
+    // Copy code functionality
+    function copyCode(button) {
+      const codeBlock = button.parentElement.nextElementSibling;
+      const code = codeBlock.textContent;
+
+      navigator.clipboard.writeText(code).then(() => {
+        const originalText = button.textContent;
+        button.textContent = "Copied!";
+        button.classList.add("copied");
+        setTimeout(() => {
+          button.textContent = originalText;
+          button.classList.remove("copied");
+        }, 2000);
+      });
+    }
+
+    // Tab functionality
+    function openTab(evt, tabName) {
+      const tabcontent = document.getElementsByClassName("tab-content");
+      for (let i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].classList.remove("active");
+      }
+
+      const tabbuttons = document.getElementsByClassName("tab-btn");
+      for (let i = 0; i < tabbuttons.length; i++) {
+        tabbuttons[i].classList.remove("active");
+      }
+
+      document.getElementById(tabName).classList.add("active");
+      evt.currentTarget.classList.add("active");
+    }
+
+    // FAQ toggle
+    function toggleFAQ(element) {
+      const answer = element.nextElementSibling;
+      const isOpen = answer.classList.contains("open");
+
+      // Close all other FAQs
+      document.querySelectorAll(".faq-answer").forEach((item) => {
+        item.classList.remove("open");
+      });
+      document.querySelectorAll(".faq-question span").forEach((item) => {
+        item.textContent = "▼";
       });
 
-      // Close mobile menu when clicking on a link
-      document.querySelectorAll(".nav-links a").forEach((link) => {
-        link.addEventListener("click", () => {
-          document.querySelector(".nav-links").classList.remove("active");
-        });
+      // Toggle current
+      if (!isOpen) {
+        answer.classList.add("open");
+        element.querySelector("span").textContent = "▲";
+      }
+    }
+
+    // Theme toggle - FIXED VERSION
+    function toggleTheme() {
+      const html = document.documentElement;
+      const currentTheme = html.getAttribute("data-theme");
+      const newTheme = currentTheme === "dark" ? "light" : "dark";
+
+      html.setAttribute("data-theme", newTheme);
+      localStorage.setItem("theme", newTheme);
+
+      // Update button icon
+      const button = document.querySelector(".theme-toggle");
+      button.textContent = newTheme === "dark" ? "☀️" : "🌙";
+    }
+
+    // Initialize theme - FIXED VERSION
+    function initTheme() {
+      const savedTheme = localStorage.getItem("theme");
+      const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const theme = savedTheme || (systemPrefersDark ? "dark" : "light");
+
+      document.documentElement.setAttribute("data-theme", theme);
+      document.querySelector(".theme-toggle").textContent = theme === "dark" ? "☀️" : "🌙";
+    }
+
+    // Intersection Observer for fade-in animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px",
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("fade-in");
+        }
+      });
+    }, observerOptions);
+
+    // Initialize everything when DOM loads
+    document.addEventListener("DOMContentLoaded", function () {
+      initTheme();
+
+      // Observe all sections for fade-in
+      document.querySelectorAll(".section").forEach((section) => {
+        observer.observe(section);
       });
 
-      // Copy code functionality
-      function copyCode(button) {
-        const codeBlock = button.parentElement.nextElementSibling;
-        const code = codeBlock.textContent;
-
-        navigator.clipboard.writeText(code).then(() => {
-          const originalText = button.textContent;
-          button.textContent = "Copied!";
-          button.classList.add("copied");
-          setTimeout(() => {
-            button.textContent = originalText;
-            button.classList.remove("copied");
-          }, 2000);
-        });
-      }
-
-      // Tab functionality
-      function openTab(evt, tabName) {
-        const tabcontent = document.getElementsByClassName("tab-content");
-        for (let i = 0; i < tabcontent.length; i++) {
-          tabcontent[i].classList.remove("active");
-        }
-
-        const tabbuttons = document.getElementsByClassName("tab-btn");
-        for (let i = 0; i < tabbuttons.length; i++) {
-          tabbuttons[i].classList.remove("active");
-        }
-
-        document.getElementById(tabName).classList.add("active");
-        evt.currentTarget.classList.add("active");
-      }
-
-      // FAQ toggle
-      function toggleFAQ(element) {
-        const answer = element.nextElementSibling;
-        const isOpen = answer.classList.contains("open");
-
-        // Close all other FAQs
-        document.querySelectorAll(".faq-answer").forEach((item) => {
-          item.classList.remove("open");
-        });
-        document.querySelectorAll(".faq-question span").forEach((item) => {
-          item.textContent = "▼";
-        });
-
-        // Toggle current
-        if (!isOpen) {
-          answer.classList.add("open");
-          element.querySelector("span").textContent = "▲";
-        }
-      }
-
-      // Theme toggle - FIXED VERSION
-      function toggleTheme() {
-        const html = document.documentElement;
-        const currentTheme = html.getAttribute("data-theme");
-        const newTheme = currentTheme === "dark" ? "light" : "dark";
-
-        html.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-
-        // Update button icon
-        const button = document.querySelector(".theme-toggle");
-        button.textContent = newTheme === "dark" ? "☀️" : "🌙";
-      }
-
-      // Initialize theme - FIXED VERSION
-      function initTheme() {
-        const savedTheme = localStorage.getItem("theme");
-        const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        const theme = savedTheme || (systemPrefersDark ? "dark" : "light");
-
-        document.documentElement.setAttribute("data-theme", theme);
-        document.querySelector(".theme-toggle").textContent = theme === "dark" ? "☀️" : "🌙";
-      }
-
-      // Intersection Observer for fade-in animations
-      const observerOptions = {
-        threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px",
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("fade-in");
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
           }
         });
-      }, observerOptions);
-
-      // Initialize everything when DOM loads
-      document.addEventListener("DOMContentLoaded", function () {
-        initTheme();
-
-        // Observe all sections for fade-in
-        document.querySelectorAll(".section").forEach((section) => {
-          observer.observe(section);
-        });
-
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-          anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute("href"));
-            if (target) {
-              target.scrollIntoView({
-                behavior: "smooth",
-                block: "start",
-              });
-            }
-          });
-        });
-
-        // Close mobile menu when clicking outside
-        document.addEventListener("click", (e) => {
-          const nav = document.querySelector(".nav-links");
-          const menuBtn = document.querySelector(".mobile-menu-btn");
-          if (nav.classList.contains("active") && !nav.contains(e.target) && !menuBtn.contains(e.target)) {
-            nav.classList.remove("active");
-          }
-        });
       });
 
-      // SEO enhancements
-      const structuredData = {
-        "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        name: "Django Admin Trap",
-        applicationCategory: "SecurityApplication",
-        operatingSystem: "OSIndependent",
-        description: "A fake Django admin login page that mimics the real Django admin perfectly for security protection",
-        url: "https://pypi.org/project/django-admin-trap/",
-        author: {
-          "@type": "Person",
-          name: "Jamil Ahmed",
-        },
-        offers: {
-          "@type": "Offer",
-          price: "0",
-          priceCurrency: "USD",
-        },
-        softwareVersion: "1.0.2",
-      };
+      // Close mobile menu when clicking outside
+      document.addEventListener("click", (e) => {
+        const nav = document.querySelector(".nav-links");
+        const menuBtn = document.querySelector(".mobile-menu-btn");
+        if (nav.classList.contains("active") && !nav.contains(e.target) && !menuBtn.contains(e.target)) {
+          nav.classList.remove("active");
+        }
+      });
+    });
 
-      // Add structured data to page
-      const script = document.createElement("script");
-      script.type = "application/ld+json";
-      script.text = JSON.stringify(structuredData);
-      document.head.appendChild(script);
-    </script>
-  </body>
+    // SEO enhancements
+    const structuredData = {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      name: "Django Admin Trap",
+      applicationCategory: "SecurityApplication",
+      operatingSystem: "OSIndependent",
+      description: "A fake Django admin login page that mimics the real Django admin perfectly for security protection",
+      url: "https://pypi.org/project/django-admin-trap/",
+      author: {
+        "@type": "Person",
+        name: "Jamil Ahmed",
+      },
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+      },
+      softwareVersion: "1.1.0",
+    };
+
+    // Add structured data to page
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.text = JSON.stringify(structuredData);
+    document.head.appendChild(script);
+  </script>
+</body>
+
 </html>
