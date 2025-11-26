@@ -1,27 +1,33 @@
 # Django Admin Trap 🔐
 
-A completely fake Django admin login page that mimics the real Django admin perfectly. Perfect for security through obscurity, honeypots, or just confusing attackers.
+A completely fake Django admin login page that mimics the real Django admin perfectly. Ideal for security-through-obscurity setups, basic deception traps, or simply confusing automated scanners and attackers.
 
-**Warning**: This is a trap! It looks exactly like the real Django admin but doesn't actually log anyone in.
+**Warning**: This is a trap. It looks exactly like the Django admin, but it never logs anyone in.
+
+---
 
 ## 🚀 Features
 
-- **Perfect Disguise**: Looks identical to the real Django admin login
-- **No Database**: Zero database interactions - completely stateless
-- **No Logging**: Doesn't store any credentials or attempt data
-- **Always Fails**: Every login attempt shows "invalid credentials" error
-- **Plug & Play**: Setup in 2 minutes
-- **Django Native**: Uses Django's actual admin templates and styling
+- **Perfect Disguise** – Identical to Django’s real admin login
+- **Stateless by Design** – Zero database access, no data written
+- **No Logging** – Does not store credentials, attempts, or IPs
+- **Always Rejects** – Every login attempt returns “invalid credentials”
+- **Plug & Play** – Configure once, done in minutes
+- **Django Native** – Uses Django’s official admin templates
+
+---
 
 ## 📦 Installation
 
 ```bash
 pip install django-admin-trap
-```
+````
+
+---
 
 ## ⚡ Quick Setup
 
-1. **Add to INSTALLED_APPS** in `settings.py`:
+### 1. Add to `INSTALLED_APPS`:
 
 ```python
 INSTALLED_APPS = [
@@ -30,129 +36,172 @@ INSTALLED_APPS = [
 ]
 ```
 
-2. **Include URLs** in your main `urls.py`:
+### 2. Add to your `urls.py`:
 
-**Option A**: Replace real admin (recommended for traps):
-
-```python
-urlpatterns = [
-    path('admin/', include('django_admin_trap.urls')),  # Fake admin
-    # ... your other URLs
-]
-```
-
-**Option B**: Use alongside real admin:
+#### **A. Replace the default admin (recommended for traps)**
 
 ```python
 urlpatterns = [
-    path('admin/', include('django_admin_trap.urls')),  # Fake admin
-    path('real-admin/', admin.site.urls),  # Real admin (hidden)
-    # ... your other URLs
+    path('admin/', include('django_admin_trap.urls')),
 ]
 ```
 
-**Option C**: Multiple trap endpoints:
+#### **B. Use alongside the real admin**
+
+```python
+urlpatterns = [
+    path('admin/', include('django_admin_trap.urls')),  # Fake
+    path('real-admin/', admin.site.urls),              # Real
+]
+```
+
+#### **C. Multiple trap endpoints**
 
 ```python
 urlpatterns = [
     path('admin/', include('django_admin_trap.urls')),
     path('wp-admin/', include('django_admin_trap.urls')),
     path('administrator/', include('django_admin_trap.urls')),
-    path('real-admin/', admin.site.urls),  # Your actual admin
+    path('real-admin/', admin.site.urls),
 ]
 ```
+
+---
 
 ## 🎯 How It Works
 
-- Any URL under the trap path shows the fake login page
-- All login attempts fail with "invalid credentials" error
-- Shows proper username for authenticated non-staff users
-- Uses Django's actual admin templates for perfect disguise
-- No data is stored, logged, or processed
+* Any URL under a trap path displays the fake admin login
+* All login attempts fail with the correct Django error message
+* Non-staff authenticated users see their username (mirrors real behavior)
+* Uses Django's own admin template system for perfect mimicry
+* Fully stateless — no data saved, no credentials processed
+
+---
 
 ## 🛡️ Use Cases
 
-### 1. **Honeypot Security**
+### 1. Honeypot-Style Decoys
 
 ```python
-# Put traps on common admin URLs
 urlpatterns = [
-    path('admin/', include('django_admin_trap.urls')),  # Main trap
-    path('wp-admin/', include('django_admin_trap.urls')),  # WordPress trap
-    path('real-admin/', admin.site.urls),  # Your actual admin
+    path('admin/', include('django_admin_trap.urls')),
+    path('wp-admin/', include('django_admin_trap.urls')),
+    path('real-admin/', admin.site.urls),
 ]
 ```
 
-### 2. **Development Mock**
+### 2. Development Mock (No risk of accidental changes)
 
 ```python
-# settings.py
 if DEBUG:
     urlpatterns = [
-        path('admin/', include('django_admin_trap.urls')),  # Fake admin for dev
+        path('admin/', include('django_admin_trap.urls')),
     ]
 else:
     urlpatterns = [
-        path('admin/', admin.site.urls),  # Real admin for production
+        path('admin/', admin.site.urls),
     ]
 ```
 
-### 3. **Client Demos**
+### 3. Client Demos Without Access
 
 ```python
-# Show clients the admin interface without giving access
 urlpatterns = [
     path('demo-admin/', include('django_admin_trap.urls')),
 ]
 ```
 
+---
+
 ## 🔧 Configuration
 
-No configuration needed! The trap works out of the box.
+No configuration required.
 
 ### Optional: Custom Template
 
-If you want to customize the login page, create your own template:
+To override the login page:
 
-1. Create `templates/admin_trap/login.html` in your project
-2. Extend the base template:
+1. Create `templates/admin_trap/login.html`
+2. Extend Django’s admin login:
 
 ```html
 {% extends "admin/login.html" %}
 ```
 
+---
+
 ## ❓ FAQ
 
-### Q: Does this store any data?
+### **Does this store any data?**
 
-**A**: No. Zero database interactions. Completely stateless.
+No. Zero logging. Zero database writes.
 
-### Q: Can attackers detect this is a trap?
+### **Is it detectable?**
 
-**A**: It uses Django's actual admin templates and responses, making it very hard to distinguish from a real admin.
+It uses the real Django admin template and response flow, so it’s extremely difficult to distinguish.
 
-### Q: What about performance?
+### **Will this slow down my app?**
 
-**A**: Minimal performance impact - just template rendering.
+No — it only renders a template.
 
-### Q: Can I use this alongside the real admin?
+### **Can I run this with my real admin?**
 
-**A**: Yes! Put the real admin on a different URL path.
+Yes. Just place the real admin under a different URL.
 
-## 🚨 Security Notes
+---
 
-- This is a **deterrent**, not a security solution
-- Use in combination with proper security measures
-- Keep your actual admin secure and hidden
-- Monitor your traps for suspicious activity
+# 🔍 Why No Logging?
+
+Django Admin Trap is intentionally **stateless**.
+
+A real honeypot that collects IPs, attempts, or credentials requires:
+
+* background workers
+* rate-limit logic
+* storage pruning
+* SIEM or log aggregation
+* protection from database flooding during brute-force attacks
+
+This package is **not** meant to do any of that.
+
+Brute-force bots can generate thousands or millions of login attempts.
+Storing those attempts inside your Django database is:
+
+* inefficient
+* expensive
+* potentially dangerous
+* and not Django’s job at all
+
+Logging belongs to your **firewall, CDN, WAF, Nginx access logs, or gateways**, where traffic should be rate-limited and monitored properly.
+
+The trap’s only job is **deception**, nothing more.
+
+If you need a real honeypot that stores attempts, use:
+
+* other logging-focused security tools
+
+Django Admin Trap will always remain lightweight, simple, and stateless.
+
+---
+
+# 🚨 Security Notes
+
+* This is a **deception layer**, not a security control
+* Always secure your real admin: strong passwords, 2FA, hidden URLs
+* Combine with proper upstream protections (Cloudflare, Fail2ban, WAF, etc.)
+* If you need logging, do it outside Django — not inside this trap
+
+---
 
 ## 📄 License
 
-MIT License - feel free to use in any project.
+MIT License.
+
+---
 
 ## 🔗 Links
 
-- **PyPI**: https://pypi.org/project/django-admin-trap/
-- **GitHub**: https://github.com/jamil-codes/django-admin-trap
-- **Documentation**: https://django-admin-trap.jamilcodes.com/
-    
+* **PyPI** – [https://pypi.org/project/django-admin-trap/](https://pypi.org/project/django-admin-trap/)
+* **GitHub** – [https://github.com/jamil-codes/django-admin-trap](https://github.com/jamil-codes/django-admin-trap)
+* **Documentation** – [https://django-admin-trap.jamilcodes.com/](https://django-admin-trap.jamilcodes.com/)
+
